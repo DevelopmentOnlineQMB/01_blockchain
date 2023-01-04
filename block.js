@@ -8,8 +8,9 @@ class Block{
         this.hash = hash; // Eigener Hash
         this.data = data; // Daten
     }
-
-    toString(){ // für Debugging-Zwecke // schräge Hochkommata nehmen auch Tabs und Returns mit, daher return in mehreren Zeilen
+    
+    // String der den gesamten Block darstellt
+    toString(){ // schräge Hochkommata, wie in diesem return-Block nehmen auch Tabs und Returns mit
         return `Block - 
         Timestamp:  ${this.timestamp}
         Last Hash:  ${this.lastHash}
@@ -17,19 +18,23 @@ class Block{
         Data:       ${this.data}`
     }
 
-    static genesis() {
-        return new this("Genesis Time","-0000-","a1b2c3","Genesis-Daten");
+    // Startblockbildung 
+    static genesis() { 
+        return new this(Date.now(),"Blockchain Start","Blockchain Start","Blockchain Start");
     };
-
-    static mineBlock(lastBlock,blockData) { // weitere Blocks
+    
+    // weitere Blocks
+    static mineBlock(lastBlock,blockData) { 
         const timestamp = Date.now(); // Zeit in ms seit 1.1.1970 - UNIX-Time
         const lastHash = lastBlock.hash; // Hash-Wert des Vorgängers
         const hash = Block.hash(timestamp,lastHash,blockData);
-
-        return new this(timestamp,lastHash,hash,blockData); //call constructor
+    
+    //call constructor
+        return new this(timestamp,lastHash,hash,blockData);
     };
-
-    static hash(timestamp, lastHash, blockData) {
+    
+    // Hashbildung 
+    static hash(timestamp, lastHash, blockData) { 
         return SHA256(`${timestamp}${lastHash}${blockData}`).toString();
     }
 
